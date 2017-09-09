@@ -4,15 +4,16 @@ const browserify = require("browserify");
 const buffer = require("vinyl-buffer");
 const chalk = require("chalk");
 const connect = require("gulp-connect");
+const DtsCreator = require("typed-css-modules");
 const glob = require("glob");
 const gulp = require("gulp");
 const gutil = require("gulp-util");
 const rename = require("gulp-rename");
+const karmaServer = require("karma").Server;
 const source = require("vinyl-source-stream");
 const sourcemaps = require("gulp-sourcemaps");
 const tslint = require("gulp-tslint");
 const uglify = require("gulp-uglify");
-const DtsCreator = require("typed-css-modules");
 
 (function () {
   const connectReload = connect.reload;
@@ -141,3 +142,24 @@ gulp.task("watch", ["html", "bundle", "server"], () => {
 });
 
 gulp.task("default", ["html", "bundle"]);
+
+gulp.task("test", (done) => {
+  new karmaServer({
+    configFile: __dirname + "/karma.conf.js",
+    singleRun: true,
+  }, done).start();
+});
+
+gulp.task("test-ci", (done) => {
+  new karmaServer({
+    configFile: __dirname + "/karma.conf.js",
+    singleRun: true,
+    browsers: ["HeadlessChrome"],
+  }, done).start();
+});
+
+gulp.task("test-watch", (done) => {
+  new karmaServer({
+    configFile: __dirname + "/karma.conf.js",
+  }, done).start();
+});

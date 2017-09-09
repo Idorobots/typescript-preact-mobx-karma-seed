@@ -4,7 +4,8 @@
   "compilerOptions": {
     "alwaysStrict": true,
     "experimentalDecorators": true,
-    "jsx": "preserve",
+    "jsx": "react",
+    "jsxFactory": "preact.createElement",
     "module": "commonjs",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -18,6 +19,7 @@
     "strictNullChecks": true,
     "target": "es6",
     "types": [
+      "jasmine",
       "node",
       "preact"
     ]
