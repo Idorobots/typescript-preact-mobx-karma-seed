@@ -4,8 +4,7 @@
   "compilerOptions": {
     "alwaysStrict": true,
     "experimentalDecorators": true,
-    "jsx": "react",
-    "jsxFactory": "preact.createElement",
+    "jsx": "preserve",
     "module": "commonjs",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,

@@ -1,10 +1,10 @@
 "use strict";
 
+const gulp = require("./gulpfile.js");
+
 process.env.TEST = true;
 
 module.exports = (karma) => {
-  const coverage = karma.singleRun ? ["coverage"] : [];
-
   karma.set({
 
     frameworks: [
@@ -23,17 +23,7 @@ module.exports = (karma) => {
       plugin: [
         "tsify",
         ["css-modulesify", {
-          before: [ // order matters
-            require("postcss-cssnext"),
-            require("postcss-custom-properties"),
-            require("postcss-import"),
-            require("postcss-color-function"),
-            require("postcss-assets")({
-              loadPaths: ["src/"]
-            }),
-            require("postcss-camel-case"),
-            require("postcss-modules-local-by-default"),
-          ],
+          before: gulp.postcss,
         }],
       ],
       transform: [
@@ -41,12 +31,12 @@ module.exports = (karma) => {
           extensions: [".ts", ".tsx"],
           plugins: [
             "transform-object-assign",
-            ["transform-react-jsx", { "pragma":"preact.h" }]
+            ["transform-react-jsx", { "pragma":"preact.h" }],
           ],
           presets: ["es2015"],
           sourceMaps: true,
-        }]
-      ]
+        }],
+      ],
     },
 
     mime: {

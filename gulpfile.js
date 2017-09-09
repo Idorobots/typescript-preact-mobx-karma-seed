@@ -15,6 +15,28 @@ const sourcemaps = require("gulp-sourcemaps");
 const tslint = require("gulp-tslint");
 const uglify = require("gulp-uglify");
 
+const postcss = [ // order matters
+  require("postcss-cssnext"),
+  require("postcss-custom-properties"),
+  require("postcss-import"),
+  require("postcss-color-function"),
+  require("postcss-assets")({
+    loadPaths: ["src/"]
+  }),
+  require("postcss-camel-case"),
+  require("postcss-modules-local-by-default"),
+];
+
+const babelify = [
+  "transform-object-assign",
+  ["transform-react-jsx", { "pragma":"preact.h" }]
+];
+
+module.exports = {
+  babelify,
+  postcss
+};
+
 (function () {
   const connectReload = connect.reload;
   let waiting = false;
@@ -31,17 +53,6 @@ const uglify = require("gulp-uglify");
 
 gulp.task("bundle", ["style-type-definitions", "lint"], () => {
   const prod = process.env.ENV === "prod";
-  const postcss = [ // order matters
-    require("postcss-cssnext"),
-    require("postcss-custom-properties"),
-    require("postcss-import"),
-    require("postcss-color-function"),
-    require("postcss-assets")({
-      loadPaths: ["src/"]
-    }),
-    require("postcss-camel-case"),
-    require("postcss-modules-local-by-default"),
-  ];
   if (prod){
     postcss.push(require('postcss-clean'));
   }
@@ -55,10 +66,7 @@ gulp.task("bundle", ["style-type-definitions", "lint"], () => {
     })
     .transform(require("babelify"), {
       extensions: [".ts", ".tsx"],
-      plugins: [
-        "transform-object-assign",
-        ["transform-react-jsx", { "pragma":"preact.h" }]
-      ],
+      plugins: babelify,
       presets: ["es2015"],
       sourceMaps: true,
     })
