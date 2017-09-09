@@ -45,7 +45,7 @@ gulp.task("bundle", ["style-type-definitions", "lint"], () => {
   if (prod){
     postcss.push(require('postcss-clean'));
   }
-  const bundle = browserify("src/app/index.tsx", { debug: !prod })
+  const bundle = browserify("src/app/main.tsx", { debug: !prod })
     .plugin(require("tsify"))
     .plugin(require("css-modulesify"), {
       before: postcss,
