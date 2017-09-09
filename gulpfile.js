@@ -30,20 +30,24 @@ const DtsCreator = require("typed-css-modules");
 
 gulp.task("bundle", ["style-type-definitions", "lint"], () => {
   const prod = process.env.ENV === "prod";
+  const postcss = [ // order matters
+    require("postcss-cssnext"),
+    require("postcss-custom-properties"),
+    require("postcss-import"),
+    require("postcss-color-function"),
+    require("postcss-assets")({
+      loadPaths: ["src/"]
+    }),
+    require("postcss-camel-case"),
+    require("postcss-modules-local-by-default"),
+  ];
+  if (prod){
+    postcss.push(require('postcss-clean'));
+  }
   const bundle = browserify("src/app/index.tsx", { debug: !prod })
     .plugin(require("tsify"))
     .plugin(require("css-modulesify"), {
-      before: [ // order matters
-        require("postcss-cssnext"),
-        require("postcss-custom-properties"),
-        require("postcss-import"),
-        require("postcss-color-function"),
-        require("postcss-assets")({
-          loadPaths: ["src/"]
-        }),
-        require("postcss-camel-case"),
-        require("postcss-modules-local-by-default"),
-      ],
+      before: postcss,
       global: true,
       output: "./dist/main.css",
       rootDir: __dirname,
