@@ -106,18 +106,14 @@ gulp.task("style-type-definitions", (done) => {
       .all(files.map((f) => {
         return creator
           .create(f)
-          .then((content) => {
-            return content.writeFile();
-          })
+          .then((content) => content.writeFile())
           .then((content) => {
             console.log("Wrote " + chalk.green(content.outputFilePath));
             content.messageList.forEach((message) => {
               console.warn(chalk.yellow("[Warn] " + message));
             });
           })
-          .catch((reason) => {
-            return console.error(chalk.red("[Error] " + reason));
-          });
+          .catch((reason) => console.error(chalk.red("[Error] " + reason)));
       }))
       .then(() => done());
   });
