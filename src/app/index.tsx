@@ -4,7 +4,8 @@ import { mainStore } from "./store/main";
 
 (function () {
 
-  const render = () => {
+  const onLoad = () => {
+    console.log("App successfully loaded!");
     const container = document.createElement("div");
     document.body.appendChild(container);
     preact.render(<MainContainer store={mainStore}/>, container);
@@ -13,9 +14,9 @@ import { mainStore } from "./store/main";
   const DOMContentLoaded = document.readyState === "interactive";
 
   if (DOMContentLoaded) {
-    render();
+    onLoad();
   } else {
-    document.addEventListener("DOMContentLoaded", render);
+    document.addEventListener("DOMContentLoaded", onLoad);
   }
 
 })();
