@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "gulp",
-    "build:watch": "gulp watch",
+    "build": "ENV=dev gulp",
+    "build:watch": "ENV=dev gulp watch",
+    "build:release": "ENV=prod gulp",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

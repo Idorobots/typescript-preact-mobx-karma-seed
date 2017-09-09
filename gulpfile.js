@@ -29,7 +29,7 @@ const DtsCreator = require("typed-css-modules");
 })();
 
 gulp.task("bundle", ["style-type-definitions", "lint"], () => {
-  const prod = false;
+  const prod = process.env.ENV === "prod";
   const bundle = browserify("src/app/index.tsx", { debug: !prod })
     .plugin(require("tsify"))
     .plugin(require("css-modulesify"), {
