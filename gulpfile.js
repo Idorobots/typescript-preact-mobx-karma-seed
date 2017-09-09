@@ -10,10 +10,8 @@ const gutil = require("gulp-util");
 const rename = require("gulp-rename");
 const source = require("vinyl-source-stream");
 const sourcemaps = require("gulp-sourcemaps");
-const through = require("through2");
 const tslint = require("gulp-tslint");
 const uglify = require("gulp-uglify");
-
 const DtsCreator = require("typed-css-modules");
 
 (function () {
@@ -25,7 +23,7 @@ const DtsCreator = require("typed-css-modules");
       setTimeout(() => { waiting = false; }, 2000);
       return connectReload.call(connect);
     } else {
-      return through.obj();
+      return require("through2").obj();
     }
   }
 })();
@@ -63,18 +61,13 @@ gulp.task("bundle", ["style-type-definitions", "lint"], () => {
     .on("error", gutil.log)
     .pipe(source("main.js"))
     .pipe(buffer());
-  if (!prod) {
-    bundle
-      .pipe(sourcemaps.init({loadMaps: true}));
-  }
   if (prod) {
     bundle
-      .pipe(gulp.dest("./dist/"))
-      .pipe(rename("main.min.js"))
       .pipe(uglify());
   } else {
     bundle
-      .pipe(sourcemaps.write())
+      .pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(sourcemaps.write());
   }
   bundle
     .pipe(gulp.dest("./dist/"))
