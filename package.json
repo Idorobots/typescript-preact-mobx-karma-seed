@@ -43,7 +43,6 @@
     "postcss-import": "^10.0.0",
     "postcss-modules-local-by-default": "^1.2.0",
     "rimraf": "^2.6.1",
-    "through2": "^2.0.3",
     "tsify": "^3.0.1",
     "tslint": "^5.5.0",
     "typed-css-modules": "^0.3.0",

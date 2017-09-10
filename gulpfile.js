@@ -31,20 +31,6 @@ module.exports = {
   postcss
 };
 
-(function () {
-  const connectReload = connect.reload;
-  let waiting = false;
-  connect.reload = function throttledReload () {
-    if (!waiting) {
-      waiting = true;
-      setTimeout(() => { waiting = false; }, 2000);
-      return connectReload.call(connect);
-    } else {
-      return require("through2").obj();
-    }
-  }
-})();
-
 gulp.task("bundle", ["style-type-definitions", "lint"], () => {
   const prod = process.env.ENV === "prod";
   if (prod){
@@ -135,7 +121,7 @@ gulp.task("server", () => {
 });
 
 gulp.task("watch", ["html", "bundle", "server"], () => {
-  gulp.watch("src/**/*.*", ["html", "bundle"]);
+  gulp.watch("src/**/*.*", { debounceDelay: 2000 }, ["html", "bundle"]);
 });
 
 gulp.task("default", ["html", "bundle"]);
