@@ -2,7 +2,6 @@
 
 const browserify = require("browserify");
 const buffer = require("vinyl-buffer");
-const chalk = require("chalk");
 const connect = require("gulp-connect");
 const DtsCreator = require("typed-css-modules");
 const glob = require("glob");
@@ -92,12 +91,12 @@ gulp.task("style-type-definitions", (done) => {
           .create(f)
           .then((content) => content.writeFile())
           .then((content) => {
-            console.log("Wrote " + chalk.green(content.outputFilePath));
+            console.log("Wrote " + gutil.colors.green(content.outputFilePath));
             content.messageList.forEach((message) => {
-              console.warn(chalk.yellow("[Warn] " + message));
+              console.warn(gutil.colors.yellow("[Warn] " + message));
             });
           })
-          .catch((reason) => console.error(chalk.red("[Error] " + reason)));
+          .catch((reason) => console.error(gutil.colors.red("[Error] " + reason)));
       }))
       .then(() => done());
   });
