@@ -27,13 +27,7 @@ const postcss = [ // order matters
   require("postcss-modules-local-by-default"),
 ];
 
-const babelify = [
-  "transform-object-assign",
-  ["transform-react-jsx", { "pragma":"preact.h" }]
-];
-
 module.exports = {
-  babelify,
   postcss
 };
 
@@ -64,19 +58,14 @@ gulp.task("bundle", ["style-type-definitions", "lint"], () => {
       output: "./dist/main.css",
       rootDir: __dirname,
     })
-    .transform(require("babelify"), {
-      extensions: [".ts", ".tsx"],
-      plugins: babelify,
-      presets: ["es2015"],
-      sourceMaps: true,
-    })
     .bundle()
     .on("error", gutil.log)
     .pipe(source("main.js"))
     .pipe(buffer());
   if (prod) {
     bundle
-      .pipe(uglify());
+      .pipe(uglify())
+      .on('error', gutil.log);
   } else {
     bundle
       .pipe(sourcemaps.init({loadMaps: true}))

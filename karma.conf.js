@@ -26,17 +26,6 @@ module.exports = (karma) => {
           before: gulp.postcss,
         }],
       ],
-      transform: [
-        ["babelify", {
-          extensions: [".ts", ".tsx"],
-          plugins: [
-            "transform-object-assign",
-            ["transform-react-jsx", { "pragma":"preact.h" }],
-          ],
-          presets: ["es2015"],
-          sourceMaps: true,
-        }],
-      ],
     },
 
     mime: {
