@@ -26,13 +26,42 @@ module.exports = (karma) => {
           before: gulp.postcss,
         }],
       ],
+      transform: [
+        ["browserify-istanbul", {
+          ignore: [
+            "**/*.spec.ts?(x)",
+            "**/*.d.ts",
+            "**/*.css",
+          ],
+        }],
+      ],
     },
 
     mime: {
       "text/x-typescript": ["ts", "tsx"],
     },
 
-    reporters: ["progress"],
+    coverageReporter: {
+      check: {
+        global: {
+          statements: 85,
+          branches: 55,
+          functions: 80,
+          lines: 90,
+          excludes: [],
+        },
+      },
+      reporters: [
+        { type: "cobertura" },
+        { type: "html" },
+        { type: "text-summary" },
+      ]
+    },
+
+    reporters: [
+      "progress",
+      "coverage"
+    ],
 
     customLaunchers: {
       HeadlessChrome: {
